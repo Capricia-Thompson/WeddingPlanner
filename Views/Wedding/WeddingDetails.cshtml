@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Wedding Details";
+}
+@model Wedding
+
+<div class="text-center">
+    <h1 class="display-4">@Model.WedderOne & @Model.WedderTwo's wedding</h1>
+
+    <h4>Date: @Model.WeddingDate.ToString("MM/dd/yyyy")</h4>
+    <h4>Location: @Model.WeddingAddress</h4>
+    <h4>Guests:</h4>
+    <ul class="w-25 mx-auto">
+        @foreach (Attendee u in Model.Guests)
+        {
+            <li>@u.User.Fname @u.User.Lname</li>
+        }
+    </ul>
+</div>

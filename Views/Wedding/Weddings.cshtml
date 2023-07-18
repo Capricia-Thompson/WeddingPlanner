@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Weddings";
+}
+@model List<Wedding>
+
+<div class="text-center">
+    <table class='w-75 mx-auto mt-5'>
+        <thead>
+            <tr>
+                <th>Wedding of</th>
+                <th>Date</th>
+                <th>Guest Count</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Wedding w in Model)
+            {
+                <tr>
+                    <td><a asp-controller="Wedding" asp-action="WeddingDetails" asp-route-WedId="@w.WeddingId">@w.WedderOne
+                            & @w.WedderTwo</a></td>
+                    <td>@w.WeddingDate.ToString("MM/dd/yyyy")</td>
+                    <td>@w.Guests.Count</td>
+                    @if (w.UserId != Context.Session.GetInt32("UserId"))
+                    {
+                        <td><form form asp-controller="Wedding" asp-action="RSVP" asp-route-WedId="@w.WeddingId" method="post">
+                            @if(w.Guests.Any(w => w.UserId == Context.Session.GetInt32("UserId"))){
+                                    <button class="btn btn-outline-primary">Withdraw RSVP</button>
+                            }else{
+                                <button class="btn btn-outline-primary">RSVP</button>
+                            }
+                            
+                            </form></td>
+                    }
+                    else
+                    {
+                        <td><form asp-controller="Wedding" asp-action="Delete" asp-route-WedId="@w.WeddingId" method="post"><button class="btn btn-outline-danger">Delete</button></form></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
